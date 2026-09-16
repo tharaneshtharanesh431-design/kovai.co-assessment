@@ -2,113 +2,138 @@ import React, { useEffect } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { CheckCircle, Briefcase, GraduationCap, ChevronRight, Sparkles } from 'lucide-react';
+import { CheckCircle, Briefcase, GraduationCap, Sparkles, MonitorPlay } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Login = () => {
   const { login, user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      navigate('/');
-    }
+    if (user) navigate('/');
   }, [user, navigate]);
 
-  const handleSuccess = async (credentialResponse) => {
-    const success = await login(credentialResponse.credential);
-    if (success) {
-      navigate('/');
-    }
-  };
-
-  const handleError = () => {
-    console.error('Google Login Failed');
-  };
-
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-100 via-slate-50 to-white text-slate-800 flex flex-col lg:flex-row overflow-hidden font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col lg:flex-row overflow-hidden font-sans relative">
+      {/* Background Animated Orbs */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-blue-300/30 rounded-full animate-pulse-glow mix-blend-multiply pointer-events-none"></div>
+      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-cyan-300/20 rounded-full animate-pulse-glow mix-blend-multiply pointer-events-none" style={{ animationDelay: '2s' }}></div>
+
       {/* Left side: Hero/Info Section */}
-      <div className="w-full lg:w-1/2 relative flex items-center justify-center p-8 lg:p-16 overflow-hidden">
-        
-        <div className="relative z-10 w-full max-w-xl">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-blue-100 text-blue-700 text-sm font-bold shadow-sm shadow-blue-100 mb-8 uppercase tracking-widest not-italic">
-            <Sparkles className="w-4 h-4" />
-            Candidate Profile
-          </div>
+      <motion.div 
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="w-full lg:w-1/2 relative flex items-center justify-center p-8 lg:p-16 z-10"
+      >
+        <div className="w-full max-w-xl">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-sm font-bold tracking-widest uppercase mb-8 backdrop-blur-sm"
+          >
+            <MonitorPlay className="w-4 h-4" />
+            Live Candidate Stream
+          </motion.div>
           
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 mb-6">
-            <div className="w-24 h-24 lg:w-32 lg:h-32 rounded-full overflow-hidden border-4 border-white shadow-xl shadow-blue-200 shrink-0">
-              <img src="/profile.jpg" alt="Tharaneesh M" className="w-full h-full object-cover" />
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-5xl lg:text-7xl font-black tracking-tighter mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-cyan-600 animate-gradient-x leading-tight"
+          >
+            Tharaneesh M
+          </motion.h1>
+          
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, type: "spring", bounce: 0.5 }}
+            className="flex items-center gap-6 mb-8"
+          >
+            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-[0_10px_30px_rgba(37,99,235,0.15)] shrink-0 relative">
+              <img src="/profile.jpg" alt="Tharaneesh M" className="w-full h-full object-cover relative z-0" />
             </div>
-            <h1 className="text-5xl lg:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-sky-600 not-italic leading-tight">
-              Tharaneesh M
-            </h1>
-          </div>
-          <p className="text-xl lg:text-2xl text-slate-600 mb-12 font-medium leading-relaxed">
-            Final Year Student & Aspiring Graduate Support Engineer. Dedicated to solving complex problems and delivering exceptional customer success.
-          </p>
+            <p className="text-xl text-slate-600 font-medium leading-relaxed max-w-sm">
+              Final Year Student & Aspiring Graduate Support Engineer.
+            </p>
+          </motion.div>
 
-          <div className="space-y-6">
-            <div className="card-modern !p-5 flex items-start gap-5 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-100/50 cursor-default">
-              <div className="p-4 rounded-2xl bg-blue-100 text-blue-600">
-                <GraduationCap className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg text-slate-900 not-italic">Academic Excellence</h3>
-                <p className="text-slate-500 font-medium mt-1">Strong foundation in software engineering, algorithms, and full-stack web development.</p>
-              </div>
-            </div>
-
-            <div className="card-modern !p-5 flex items-start gap-5 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky-100/50 cursor-default">
-              <div className="p-4 rounded-2xl bg-sky-100 text-sky-600">
-                <Briefcase className="w-6 h-6" />
-              </div>
-              <div>
-                <h3 className="font-bold text-lg text-slate-900 not-italic">Support Engineering Ready</h3>
-                <p className="text-slate-500 font-medium mt-1">Bridging the gap between engineering teams and end-users with clear communication.</p>
-              </div>
-            </div>
+          <div className="space-y-4">
+            {[
+              { icon: GraduationCap, title: "Academic Excellence", desc: "Strong foundation in software engineering and algorithms.", color: "text-blue-600", bg: "bg-blue-100" },
+              { icon: Briefcase, title: "Support Ready", desc: "Bridging the gap between engineering and end-users.", color: "text-cyan-600", bg: "bg-cyan-100" }
+            ].map((item, i) => (
+              <motion.div 
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6 + (i * 0.1) }}
+                className="glass-card !p-5 flex items-start gap-5 hover:bg-white/90 transition-colors cursor-default border border-slate-200"
+              >
+                <div className={`p-4 rounded-2xl ${item.bg} ${item.color} shadow-inner`}>
+                  <item.icon className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg text-slate-900">{item.title}</h3>
+                  <p className="text-slate-500 font-medium mt-1">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Right side: Login Card */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 relative">
-         {/* Large abstract blobs */}
-         <div className="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-gradient-to-r from-blue-200 to-sky-200 blur-[100px] pointer-events-none opacity-60"></div>
-         <div className="absolute bottom-1/4 left-1/4 w-72 h-72 rounded-full bg-slate-200 blur-[100px] pointer-events-none opacity-60"></div>
-
-        <div className="w-full max-w-md relative z-10">
-          <div className="card-modern !p-10 !rounded-[3rem] text-center backdrop-blur-2xl bg-white/60">
-            <div className="mx-auto w-24 h-24 bg-gradient-to-tr from-blue-600 to-sky-500 rounded-[2rem] flex items-center justify-center mb-8 shadow-xl shadow-blue-200 transform rotate-3 hover:rotate-0 transition-transform duration-500">
-              <Briefcase className="w-12 h-12 text-white" />
-            </div>
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+        className="w-full lg:w-1/2 flex items-center justify-center p-6 lg:p-12 relative z-10"
+      >
+        <div className="w-full max-w-md animate-float">
+          <div className="glass-card !p-10 text-center border border-white bg-white/80">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-cyan-500 animate-gradient-x"></div>
             
-            <h2 className="text-4xl font-black text-slate-900 mb-3 not-italic">Welcome Back</h2>
-            <p className="text-slate-500 font-medium text-lg mb-10">Sign in to access your assessment portal.</p>
+            <motion.div 
+              initial={{ rotate: -10 }}
+              animate={{ rotate: 0 }}
+              transition={{ type: "spring", bounce: 0.6, delay: 0.8 }}
+              className="mx-auto w-24 h-24 bg-gradient-to-tr from-blue-600 to-cyan-500 rounded-[2rem] flex items-center justify-center mb-8 shadow-[0_15px_30px_rgba(37,99,235,0.2)]"
+            >
+              <Sparkles className="w-12 h-12 text-white" />
+            </motion.div>
+            
+            <h2 className="text-4xl font-black text-slate-900 mb-3">Welcome Back</h2>
+            <p className="text-slate-500 font-medium text-lg mb-10">Sign in to access your live workspace.</p>
 
-            <div className="flex justify-center mb-8 transform hover:scale-105 transition-transform duration-300">
-              <div className="shadow-lg rounded-full overflow-hidden shadow-blue-200/50">
+            <motion.div 
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex justify-center mb-8"
+            >
+              <div className="shadow-[0_8px_20px_rgba(0,0,0,0.06)] rounded-full overflow-hidden p-1 bg-white border border-slate-100">
                 <GoogleLogin
-                  onSuccess={handleSuccess}
-                  onError={handleError}
+                  onSuccess={(res) => login(res.credential)}
+                  onError={() => console.log('Login Failed')}
                   shape="pill"
                   size="large"
-                  theme="filled_black"
+                  theme="outline"
                   text="continue_with"
-                  useOneTap
                 />
               </div>
-            </div>
+            </motion.div>
             
-            <div className="mt-8 pt-8 border-t-2 border-slate-100 border-dashed">
-               <button className="btn-secondary w-full !bg-transparent !border-none !shadow-none hover:!bg-blue-50 text-sm">
-                 Graduate Support Engineer Assessment <ChevronRight className="w-4 h-4 ml-1" />
-               </button>
+            <div className="mt-8 pt-8 border-t border-slate-200">
+               <p className="text-sm text-slate-500 font-medium flex items-center justify-center gap-2">
+                 <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                 Assessment Portal Live
+               </p>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
